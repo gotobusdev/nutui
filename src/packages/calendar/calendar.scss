@@ -39,7 +39,10 @@
         right: 0;
     }
     .nut-calendar-cancel-btn{
-        left: 0;
+        width: 20px;
+        height: 20px;
+        top: 10px;
+        left: 12px;
     }
     .nut-calendar-title{
         margin: 0 60px;
@@ -110,9 +113,20 @@
             justify-content: center;
             flex-direction: column;
             //font-size: $font-size-large;
+            .nut-calendar-price{
+                font-size: $font-size-small;
+                color: #ff990d;
+            }
+            .nut-calendar-specialDate{
+                color:#12b22d;       
+            }
             &-active{
                 background-color: $primary-color;
                 color: #FFF;
+                .nut-calendar-price{
+                    font-size: $font-size-small;
+                    color: #fff;
+                }
             }
             &-disabled{
                 color: $disabled-bg;
@@ -127,10 +141,7 @@
             .nut-calendar-day-tip{
                 font-size: $font-size-small;
             }
-            .nut-calendar-price{
-                font-size: $font-size-small;
-                color: #ff990d;
-            }
+           
         }
     }
 }

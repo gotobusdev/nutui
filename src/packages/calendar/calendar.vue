@@ -3,7 +3,7 @@
         <div class="nut-calendar" v-show="isVisible">
             <div class="nut-calendar-control">
                 <span class="nut-calendar-confirm-btn" @click="confirm" v-if="(type == 'range' && currDate && currDate.length == 2) || type != 'range'">{{nutTranslate('lang.okBtnTxt')}}</span>
-                <span class="nut-calendar-cancel-btn"  @click="closeActionSheet">{{nutTranslate('lang.cancelBtnTxt')}}</span>
+                 <img src="../../assets/img/close.png"  class="nut-calendar-cancel-btn"  @click="closeActionSheet">
                 <div class="nut-calendar-title">{{title || nutTranslate('lang.calendar.title')}}</div>
                 <div class="nut-calendar-week">
                     <span v-for="(item, index) of week" :key="index">{{item}}</span>
@@ -17,11 +17,11 @@
                         <div class="nut-calendar-month-con">
                             <div class="nut-calendar-month-item">
                                 <template v-for="(day, i) of  month.monthData" >
-                                    <div class="nut-calendar-month-day" :class="[getClass(day, month),disableClass(day,month)]" :key="i" @click="chooseDay(day, month)">
+                                    <div class="nut-calendar-month-day" :class="getClass(day, month)" :key="i" @click="chooseDay(day, month)">
                                         <span>{{day.type == 'curr' ? day.day : ''}}</span>
                                         <span class="nut-calendar-day-tip" v-if="isStartTip(day, month)">{{nutTranslate('lang.calendar.start')}}</span>
                                         <span class="nut-calendar-day-tip" v-else-if="isEndTip(day, month)">{{nutTranslate('lang.calendar.end')}}</span>
-                                        <span class="nut-calendar-price">{{getCalendarDayPrice(day, month)}}</span>
+                                        <slot v-bind:day="day" :month="month"></slot>
                                     </div>
                                 </template>
                             </div>
@@ -76,10 +76,6 @@ export default {
             //default: null
             default: Utils.getDay(365)
         },
-        tipsDate:{
-            type:  Object,
-            default: null
-        },
         minDate:{
             type: String,
             default: null
@@ -113,6 +109,13 @@ export default {
             return this.type === 'range';
         }
     },
+    watch:{
+        isVisible: function(){
+            if(this.isVisible == true){
+               this.initData();
+            }
+        }
+    },
     methods: {
         isActive(day, month) {
             return  this.isRange && day.type == 'curr' && this.getClass(day, month) == 'nut-calendar-month-day-active';
@@ -128,17 +131,6 @@ export default {
 
         isEndTip(day, month) {
            return this.isActive(day, month);
-        },
-
-        disableClass(day, monthsData){
-            if(!this.minDate) return;
-            let year = parseInt(monthsData.curData[0]);
-            let month = parseInt(monthsData.curData[1].toString().replace(/^0/, ''));
-            let date  = `${year}-${month}-${Utils.getNumTwoBit(day.day)}`;
-            if(!Utils.compareDate(this.minDate,date)){
-                return 'mindate-disable'
-                console.log(date);
-            }
         },
 
         getCurrData(type) {
@@ -227,9 +219,6 @@ export default {
         },
 
         chooseDay(day, month, isFirst, isRange) {
-            if(this.disableClass(day,month) == 'mindate-disable'){
-                return;
-            }
             if (this.getClass(day, month, isRange) != `${this.dayPrefix}-disabled`) {
                 let days = [...month.curData];
                 days = isRange ? days.splice(3) : days.splice(0,3);
@@ -382,16 +371,6 @@ export default {
             }
         },
 
-        getCalendarDayPrice(day,monthsData){
-            if (!this.tipsDate) return
-            if (day.type != 'curr') return
-            let year = parseInt(monthsData.curData[0]);
-            let month = parseInt(monthsData.curData[1].toString().replace(/^0/, ''));
-            let date  = `${year}-${month}-${Utils.getNumTwoBit(day.day)}`;
-            if(this.tipsDate[date]){
-               return  '$'+this.tipsDate[date]
-           }
-        },
 
         initData() {
             if (!this.defaultValue) {
@@ -435,6 +414,6 @@ export default {
 
     mounted() {
         this.initData();
-    }
+    },
 }
 </script>
