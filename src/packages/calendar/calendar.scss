@@ -94,6 +94,12 @@
         // .nut-calendar-month-item{
         //     display: flex;
         // }
+        .mindate-disable{
+            span{
+                // background-color: #FFF;
+                color: gray;
+            }
+        }
         .nut-calendar-month-day{
             //flex: 1;
             float: left;
@@ -120,6 +126,10 @@
             }
             .nut-calendar-day-tip{
                 font-size: $font-size-small;
+            }
+            .nut-calendar-price{
+                font-size: $font-size-small;
+                color: #ff990d;
             }
         }
     }
