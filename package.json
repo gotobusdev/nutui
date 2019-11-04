@@ -1,5 +1,5 @@
 {
-  "name": "@nutui/nutui",
+  "name": "ivy-nutui",
   "version": "2.1.6",
   "description": "一套轻量级移动端Vue组件库",
   "typings": "dist/types/index.d.ts",
@@ -28,12 +28,11 @@
     "add": "node scripts/createCptTpl.js",
     "test": "cross-env NODE_ENV=test nyc --reporter=lcov --reporter=text  mocha-webpack --webpack-config build/webpack.test.conf.js --require test/setup.js src/packages/*/__test__/**.spec.js",
     "coveralls": "cat ./coverage/lcov.info | coveralls",
-    "test:watch": "npm run test --watch",
-    "prepare": "npm run build"
+    "test:watch": "npm run test --watch"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/jdf2e/nutui.git"
+    "url": "https://github.com/gotobusdev/nutui"
   },
   "keywords": [
     "nutui",
